@@ -1,14 +1,14 @@
-import { Column, Model, Table, DataType } from 'sequelize-typescript';
+import { Column, Model, Table, DataType, AutoIncrement, PrimaryKey, ForeignKey } from 'sequelize-typescript';
+import { RoleEntity } from './role.entities';
 
 @Table({ tableName: 'tblUsers' })
 export class UsersEntity extends Model<UsersEntity> {
-
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-    unique: true,
-  })
-  username: string;
+ @AutoIncrement
+ @PrimaryKey
+ @Column({
+    type:DataType.INTEGER
+ })
+ id:number;
 
   @Column({
     type: DataType.STRING,
@@ -22,6 +22,10 @@ export class UsersEntity extends Model<UsersEntity> {
     allowNull: false,
   })
   password: string;
+
+  @ForeignKey(() => RoleEntity)
+  @Column(DataType.UUID)
+  roleId: string;
 
   @Column({
     type: DataType.DATE,

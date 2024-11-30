@@ -8,7 +8,7 @@ export const databaseConfig: SequelizeModuleOptions = {
     username: process.env.DB_USERNAME || 'root',
     password: process.env.DB_PASSWORD || 'root',
     database: process.env.DB_NAME || 'jkteck',
-    autoLoadModels: true, // Automatically load models
-    synchronize: false,   // Set to false for production, use migrations
-    models: [__dirname + '../../entities{.ts,.js}'], // Path to your models
+    autoLoadModels: true, 
+    synchronize: true, 
+    models: [__dirname + '../../entities{.ts,.js}'],
   };

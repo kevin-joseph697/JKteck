@@ -1,6 +1,6 @@
 import { IsEmail, IsNotEmpty, IsString } from "class-validator";
 
-export class SignInCreadentialsDto{
+export class SignUpCreadentialsDto{
     
     @IsNotEmpty()
     @IsEmail()
@@ -9,5 +9,13 @@ export class SignInCreadentialsDto{
     @IsNotEmpty()
     @IsString()
     password: string;
+
+    @IsNotEmpty()
+    @IsString()
+    con_password: string;
+
+    @IsString()
+    @IsNotEmpty()
+    roleName: string; 
   
 }

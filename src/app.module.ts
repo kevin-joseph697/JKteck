@@ -8,12 +8,14 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { databaseConfig } from './configs/database/database.provider';
 import { UsersEntity } from './entities/user.entities';
 import { Sequelize } from 'sequelize-typescript';
+import { RoleEntity } from './entities/role.entities';
 @Module({
   imports: [UsersModule,
             AuthModule,
             DocumentModule,
             SequelizeModule.forRoot(databaseConfig),
-            SequelizeModule.forFeature([UsersEntity])],
+            SequelizeModule.forFeature([UsersEntity,RoleEntity])
+          ],
   controllers: [AppController],
   providers: [AppService],
 })
