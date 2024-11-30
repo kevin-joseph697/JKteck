@@ -1,5 +1,5 @@
 import { BadRequestException, ConflictException, Inject, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { AuthRepository } from 'src/repository/user.repository';
+import { UserRepository } from 'src/repository/user.repository';
 import { SignUpCreadentialsDto} from './dto/sign-up-user.dto';
 import { SignInCreadentialsDto } from './dto/sign-in-user.dto';
 import { RoleRepository } from 'src/repository/role.repository';
@@ -9,7 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class AuthService {
     constructor(
-       private authRepository : AuthRepository,
+       private userRepository : UserRepository,
        private roleRepsitory : RoleRepository,
        private readonly jwtService : JwtService
     ){}
@@ -19,14 +19,14 @@ export class AuthService {
         try{
             if(email && password && roleName){
                 if(password === con_password){
-                    const user  = await this.authRepository.findOneUser(email)
+                    const user  = await this.userRepository.findOneUser(email)
                     if(user){
                       throw new ConflictException('Email already exists')
                     }else{
                         const roleId = await this.roleRepsitory.findRoleIdByRoleName(roleName)
                         if(roleId){
                             const hashedPassword = await bcrypt.hash(signUpCreadentialsDto.password,10)
-                            const created = await this.authRepository.registerUser(signUpCreadentialsDto.email,hashedPassword,roleId.id)
+                            const created = await this.userRepository.registerUser(signUpCreadentialsDto.email,hashedPassword,roleId.id)
                             return{
                                 statusCode:200,
                                 message:['User created successfully']
@@ -58,7 +58,7 @@ export class AuthService {
         const{email,password} = signInCreadentialsDto
         try{
             if(email  && password){
-                const user =  await this.authRepository.login(signInCreadentialsDto.email)
+                const user =  await this.userRepository.login(signInCreadentialsDto.email)
                 if(!user){
                     throw new NotFoundException('User not found');
                 }
@@ -70,7 +70,7 @@ export class AuthService {
                 const token = this.jwtService.sign({
                     id: user.id,
                     email: user.email,
-                    roleName: roleName.name,
+                    role: roleName.name,
                 })
                 return{
                     statusCode:200,

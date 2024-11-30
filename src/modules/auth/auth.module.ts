@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { AuthRepository } from 'src/repository/user.repository';
+import { UserRepository } from 'src/repository/user.repository';
 import { UsersEntity } from 'src/entities/user.entities';
 import { RoleRepository } from 'src/repository/role.repository';
 import { RoleEntity } from 'src/entities/role.entities';
@@ -25,6 +25,6 @@ import { appConfig } from 'src/configs/config.constants';
     })
   ],
   controllers: [AuthController],
-  providers: [AuthService,AuthRepository,RoleRepository],
+  providers: [AuthService,UserRepository,RoleRepository],
 })
 export class AuthModule {}
