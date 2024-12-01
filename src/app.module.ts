@@ -9,12 +9,14 @@ import { databaseConfig } from './configs/database/database.provider';
 import { UsersEntity } from './entities/user.entities';
 import { Sequelize } from 'sequelize-typescript';
 import { RoleEntity } from './entities/role.entities';
+import { IngestionModule } from './modules/ingestion/ingestion.module';
 @Module({
   imports: [UsersModule,
             AuthModule,
             DocumentModule,
             SequelizeModule.forRoot(databaseConfig),
-            SequelizeModule.forFeature([UsersEntity,RoleEntity])
+            SequelizeModule.forFeature([UsersEntity,RoleEntity]),
+            IngestionModule
           ],
   controllers: [AppController],
   providers: [AppService],
