@@ -1,13 +1,18 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { DocumentService } from './document.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer'
 import { DocumentCreationDto, DocumentCreationDto1 } from './dto/documentCreation.dto';
+import { JwtAuthGaurd } from 'src/gaurds/jwt.gaurds';
+import { RoleGaurds } from 'src/gaurds/roles.gaurds';
+import { Roles } from 'src/decorators/roles.decorator';
 @Controller('document')
 export class DocumentController {
   constructor(private readonly documentService: DocumentService) {}
 
   @Post('/UploadDocument')
+  @UseGuards(JwtAuthGaurd,RoleGaurds)
+  @Roles('Admin','Editor')
   @HttpCode(HttpStatus.OK)
   @UseInterceptors(
     FileInterceptor('file',{
@@ -34,6 +39,8 @@ export class DocumentController {
   }
 
   @Get('/getUserFiles/:userId')
+  @UseGuards(JwtAuthGaurd,RoleGaurds)
+  @Roles('Admin','Editor','Viewer')
   @HttpCode(HttpStatus.OK)
   getUserFile(
     @Param('userId') userId:string
@@ -43,6 +50,8 @@ export class DocumentController {
 
   
   @Put('/updateDocument/:id')
+  @UseGuards(JwtAuthGaurd,RoleGaurds)
+  @Roles('Admin','Editor')
   @HttpCode(HttpStatus.OK)
   @UseInterceptors(FileInterceptor('file'))
   async updateUserFile(
@@ -52,6 +61,8 @@ export class DocumentController {
   }
 
   @Delete('/deleteFile/:id')
+  @UseGuards(JwtAuthGaurd,RoleGaurds)
+  @Roles('Admin','Editor')
   @HttpCode(HttpStatus.OK)
   async deleteFile(
     @Param('id') id:string,@Body() filePath:string
