@@ -4,6 +4,7 @@ import { UsersEntity } from 'src/entities/user.entities';
 import { UserRepository } from 'src/repository/user.repository';
 import { CreateUserDto } from './dto/createuser.dto';
 import { RoleRepository } from 'src/repository/role.repository';
+import { GetAllUserDto } from './dto/getAllUser.dto';
 @Injectable()
 export class UsersService {
     constructor(
@@ -11,8 +12,16 @@ export class UsersService {
       private roleRepository : RoleRepository
     ){}
    
-    async getAllUsers():Promise<UsersEntity[]>{
-        return await this.userRepository.getAllUsers()
+    async getAllUsers(){
+        try{
+            return await this.userRepository.getAllUsers()
+        }catch(err){
+            return {
+                statusCode:err?.status ? err.status : 500,
+                message: [new InternalServerErrorException(err)['response']['message']],
+                error: 'Bad Request',
+            }
+        }
     }
 
     async UpdateUserRole(id:string, role:string){

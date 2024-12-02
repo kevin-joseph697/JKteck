@@ -21,8 +21,8 @@ export class UsersController {
   @UseGuards(JwtAuthGaurd,RoleGaurds)
   @Roles('Admin')
   updateUserRole(
-    @Param('id') id:string,@Body() role:string
+    @Param('id') id:string,@Body() body:{role:string}
   ){
-    return this.usersService.UpdateUserRole(id,role['role'])
+    return this.usersService.UpdateUserRole(id,body['role'])
   }
 }
