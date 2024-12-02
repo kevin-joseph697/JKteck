@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 import { DocumentEntity } from "src/entities/document.entities";
+import { getUserDocumentDto } from "src/modules/document/dto/getUserDocument.dto";
 
 @Injectable()
 export class DocumentRepository{
@@ -13,13 +14,14 @@ export class DocumentRepository{
         return this.documentModel.create({title,description,filePath,userId})
     }
 
-    async getUserFiles(userId:string):Promise<DocumentEntity[]>{
-        return this.documentModel.findAll({
+    async getUserFiles(userId:string):Promise<getUserDocumentDto[]>{
+        const result = await this.documentModel.findAll({
             attributes:['id','title','description','filePath'],
             where:{userId:userId},
             limit:10,
             offset:0
         })
+        return result
     }
 
     async updateUserFileDetails(id:string,title:string,description:string):Promise<[number]>{
