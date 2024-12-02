@@ -16,6 +16,9 @@ Microservices Communication: RabbitMQ
 Database: PostgreSQL
 ORM :Sequelize
 
+## Swagger Url
+http://localhost:3000/api#/
+
 ## Prerequisites
 Node.js (for NestJS)
 PostgreSQL (or other relational databases)
@@ -34,6 +37,7 @@ $ npm install
 
 ## env variables setup
 set a up .env file in the root directory of the project and create vars that are available in config/config.contants.ts and config/databas.provider.ts
+
 
 ## Compile and run the project
 

@@ -6,6 +6,7 @@ import { DocumentCreationDto, DocumentCreationDto1 } from './dto/documentCreatio
 import { JwtAuthGaurd } from 'src/gaurds/jwt.gaurds';
 import { RoleGaurds } from 'src/gaurds/roles.gaurds';
 import { Roles } from 'src/decorators/roles.decorator';
+import { ApiBearerAuth, ApiBody, ApiConsumes } from '@nestjs/swagger';
 @Controller('document')
 export class DocumentController {
   constructor(private readonly documentService: DocumentService) {}
@@ -14,6 +15,7 @@ export class DocumentController {
   @UseGuards(JwtAuthGaurd,RoleGaurds)
   @Roles('Admin','Editor')
   @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth()
   @UseInterceptors(
     FileInterceptor('file',{
       storage:diskStorage({
@@ -25,6 +27,21 @@ export class DocumentController {
       })
     })
   )
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        title: { type: 'string' },
+        description: { type: 'string' },
+        userId:{type:'string'},
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
   async createDocument(
     @UploadedFile()file: Express.Multer.File,
     @Body() documentCreationDto:DocumentCreationDto
@@ -42,6 +59,7 @@ export class DocumentController {
   @UseGuards(JwtAuthGaurd,RoleGaurds)
   @Roles('Admin','Editor','Viewer')
   @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth()
   getUserFile(
     @Param('userId') userId:string
   ){
@@ -53,6 +71,23 @@ export class DocumentController {
   @UseGuards(JwtAuthGaurd,RoleGaurds)
   @Roles('Admin','Editor')
   @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        title: { type: 'string' },
+        description: { type: 'string' },
+        userId:{type:'string'},
+        filePath: {type:'string'},
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
   @UseInterceptors(FileInterceptor('file'))
   async updateUserFile(
     @Param('id') id:string,@Body()updateData:DocumentCreationDto1,@UploadedFile()file: Express.Multer.File,
@@ -63,6 +98,7 @@ export class DocumentController {
   @Delete('/deleteFile/:id')
   @UseGuards(JwtAuthGaurd,RoleGaurds)
   @Roles('Admin','Editor')
+  @ApiBearerAuth()
   @HttpCode(HttpStatus.OK)
   async deleteFile(
     @Param('id') id:string,@Body() filePath:string

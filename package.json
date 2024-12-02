@@ -28,6 +28,7 @@
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/sequelize": "^10.0.1",
+    "@nestjs/swagger": "^8.0.7",
     "amqp-connection-manager": "^4.1.14",
     "amqplib": "^0.10.5",
     "bcrypt": "^5.1.1",
@@ -41,7 +42,8 @@
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
     "sequelize": "^6.37.5",
-    "sequelize-typescript": "^2.1.6"
+    "sequelize-typescript": "^2.1.6",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
@@ -84,8 +86,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
-    "moduleNameMapper":{
-      "^src/(.*)":  "<rootDir>/$1"
+    "moduleNameMapper": {
+      "^src/(.*)": "<rootDir>/$1"
     }
   }
 }

@@ -17,7 +17,7 @@ describe('AuthService', () => {
       findOneUser: jest.fn(),
       registerUser: jest.fn(),
       login: jest.fn(),
-    };
+    };  
 
     mockRoleRepository = {
       findRoleIdByRoleName: jest.fn(),
@@ -130,7 +130,7 @@ describe('AuthService', () => {
     });
   });
 
-  describe('login', () => {
+  describe('login', () =>   {
     it('should successfully login a user and return a token', async () => {
       const signInCreadentialsDto = {
         email: 'test@example.com',
