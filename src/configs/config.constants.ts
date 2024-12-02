@@ -3,7 +3,7 @@ dotenv.config()
 export const appConfig = {
     secret : process.env.SECRET || 'KevinJoseph',
     expiresIn : process.env.EXPIRESIN || '24h',
-    pythonAPI : process.env.PYTHONAPI || 'http://localhost:5000'
+    RabbitMqUrl : process.env.RABBITMQURL  || 'amqp://localhost:5672'
 }
 export enum UserRole {
     Admin = "Admin",
